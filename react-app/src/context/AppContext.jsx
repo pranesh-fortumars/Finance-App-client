@@ -8,7 +8,8 @@ export const ViewId = {
   REPORTS: 'reports',
   PAYMENTS: 'payments',
   NOTIFICATIONS: 'notifications',
-  BONUS: 'bonus'
+  BONUS: 'bonus',
+  SCHEMES: 'schemes'
 };
 
 const AppContext = createContext();

@@ -9,6 +9,9 @@ import Dashboard from '../../pages/Dashboard';
 import DailyEntry from '../../pages/DailyEntry';
 import PaymentHandling from '../../pages/PaymentHandling';
 import Reports from '../../pages/Reports';
+import BonusManagement from '../../pages/BonusManagement';
+import Notifications from '../../pages/Notifications';
+import SchemeManagement from '../../pages/SchemeManagement';
 
 const ScreenWidget = ({ viewId }) => {
   switch (viewId) {
@@ -17,8 +20,9 @@ const ScreenWidget = ({ viewId }) => {
     case ViewId.ENTRY: return <DailyEntry />;
     case ViewId.REPORTS: return <Reports />;
     case ViewId.PAYMENTS: return <PaymentHandling />;
-    case ViewId.NOTIFICATIONS: return <div className="screen-center">Notifications (Pending)</div>;
-    case ViewId.BONUS: return <div className="screen-center">Bonus Management (Pending)</div>;
+    case ViewId.NOTIFICATIONS: return <Notifications />;
+    case ViewId.BONUS: return <BonusManagement />;
+    case ViewId.SCHEMES: return <SchemeManagement />;
     default: return <div className="screen-center">Unknown View</div>;
   }
 };

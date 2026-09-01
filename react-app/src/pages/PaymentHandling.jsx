@@ -1,10 +1,44 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useDataContext } from '../context/DataContext';
 import Card from '../components/common/Card';
 import { Search, Filter, Calendar } from 'lucide-react';
 import './Pages.css';
 
 const PaymentHandling = () => {
+  const { transactions, users, isLoading } = useDataContext();
   const [paymentMode, setPaymentMode] = useState('all');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [date, setDate] = useState('');
+  const [filteredTx, setFilteredTx] = useState([]);
+
+  useEffect(() => {
+    let filtered = [...transactions];
+
+    if (searchQuery) {
+      const q = searchQuery.toLowerCase();
+      filtered = filtered.filter(t => {
+        const u = users.find(user => user.id === t.userId);
+        return (
+          t.receiptNumber?.toLowerCase().includes(q) ||
+          t.amount?.toString().includes(q) ||
+          u?.name?.toLowerCase().includes(q)
+        );
+      });
+    }
+
+    if (paymentMode !== 'all') {
+      filtered = filtered.filter(t => t.paymentMode === paymentMode);
+    }
+
+    if (date) {
+      filtered = filtered.filter(t => {
+        const tDate = new Date(t.date?.seconds ? t.date.seconds * 1000 : t.date).toISOString().split('T')[0];
+        return tDate === date;
+      });
+    }
+
+    setFilteredTx(filtered);
+  }, [transactions, users, searchQuery, paymentMode, date]);
 
   return (
     <div className="page-container">
@@ -20,6 +54,8 @@ const PaymentHandling = () => {
             type="text" 
             placeholder="Search by name, amount, or ID..."
             className="search-input"
+            value={searchQuery}
+            onChange={e => setSearchQuery(e.target.value)}
           />
         </div>
 
@@ -39,17 +75,49 @@ const PaymentHandling = () => {
           </div>
           <div style={{ flex: 1 }} className="input-wrapper">
             <Calendar size={20} className="input-icon" />
-            <input type="date" className="form-input" style={{ paddingLeft: '40px' }} />
+            <input type="date" className="form-input" style={{ paddingLeft: '40px' }} value={date} onChange={e => setDate(e.target.value)} />
           </div>
         </div>
       </div>
 
       <div className="list-container">
-        <div className="center-message">
-          <Receipt size={48} className="empty-icon" />
-          <p>No payments found</p>
-          <span style={{ fontSize: '0.85rem', opacity: 0.6 }}>Try adjusting your search or filters</span>
-        </div>
+        {isLoading ? (
+           <div className="center-message">Loading payments...</div>
+        ) : filteredTx.length === 0 ? (
+          <div className="center-message">
+            <Receipt size={48} className="empty-icon" />
+            <p>No payments found</p>
+            <span style={{ fontSize: '0.85rem', opacity: 0.6 }}>Try adjusting your search or filters</span>
+          </div>
+        ) : (
+          filteredTx.map(t => {
+            const u = users.find(user => user.id === t.userId);
+            return (
+              <Card key={t.id} margin="0 0 12px 0">
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <div>
+                    <h4 style={{ margin: '0 0 4px 0' }}>{u?.name || 'Unknown'}</h4>
+                    <p style={{ margin: 0, fontSize: '0.85rem', color: '#64748b' }}>{u?.mobileNumber || ''}</p>
+                  </div>
+                  <div style={{ textAlign: 'right' }}>
+                    <div style={{ fontWeight: 'bold', fontSize: '1.1rem' }}>₹{Number(t.amount).toFixed(2)}</div>
+                    <div style={{ fontSize: '0.75rem', padding: '2px 8px', borderRadius: '12px', background: 'rgba(59,130,246,0.1)', color: '#3b82f6', display: 'inline-block', marginTop: '4px' }}>
+                      {t.paymentMode.toUpperCase()}
+                    </div>
+                  </div>
+                </div>
+                <div style={{ display: 'flex', gap: '16px', marginTop: '12px', paddingTop: '12px', borderTop: '1px solid var(--border-color, rgba(0,0,0,0.05))', fontSize: '0.8rem', color: '#64748b' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                    <Calendar size={14} /> {new Date(t.date?.seconds ? t.date.seconds * 1000 : t.date).toLocaleDateString()}
+                  </div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                    <Receipt size={14} /> {t.receiptNumber || 'N/A'}
+                  </div>
+                </div>
+              </Card>
+            );
+          })
+        )}
       </div>
     </div>
   );

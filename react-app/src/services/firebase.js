@@ -20,9 +20,34 @@ const db = getFirestore(app);
 export const FirebaseService = {
   usersRef: collection(db, "users"),
   schemesRef: collection(db, "userSchemes"),
+  transactionsRef: collection(db, "transactions"),
+  schemeTypesRef: collection(db, "schemeTypes"),
+  notificationsRef: collection(db, "notifications"),
 
   getUsers: async () => {
     const q = query(FirebaseService.usersRef, orderBy("createdAt", "desc"));
+    const snapshot = await getDocs(q);
+    return snapshot.docs.map(doc => doc.data());
+  },
+
+  getTransactions: async () => {
+    const q = query(FirebaseService.transactionsRef, orderBy("date", "desc"));
+    const snapshot = await getDocs(q);
+    return snapshot.docs.map(doc => doc.data());
+  },
+
+  getUserSchemes: async () => {
+    const snapshot = await getDocs(FirebaseService.schemesRef);
+    return snapshot.docs.map(doc => doc.data());
+  },
+
+  getSchemeTypes: async () => {
+    const snapshot = await getDocs(FirebaseService.schemeTypesRef);
+    return snapshot.docs.map(doc => doc.data());
+  },
+
+  getNotifications: async () => {
+    const q = query(FirebaseService.notificationsRef, orderBy("createdAt", "desc"));
     const snapshot = await getDocs(q);
     return snapshot.docs.map(doc => doc.data());
   },
@@ -35,13 +60,25 @@ export const FirebaseService = {
     await setDoc(doc(FirebaseService.schemesRef, userScheme.id), userScheme);
   },
 
+  saveTransaction: async (transaction) => {
+    await setDoc(doc(FirebaseService.transactionsRef, transaction.id), transaction);
+  },
+  
+  saveSchemeType: async (schemeType) => {
+    await setDoc(doc(FirebaseService.schemeTypesRef, schemeType.id), schemeType);
+  },
+
+  saveNotification: async (notification) => {
+    await setDoc(doc(FirebaseService.notificationsRef, notification.id), notification);
+  },
+
   generateNextSerialNumber: async () => {
     const q = query(FirebaseService.usersRef, orderBy("createdAt", "desc"), limit(1));
     const snapshot = await getDocs(q);
-    if (snapshot.empty) return 'CUST001';
+    if (snapshot.empty) return 'c_01';
     
     const lastUser = snapshot.docs[0].data();
     const number = parseInt(lastUser.serialNumber.replace(/[^0-9]/g, '')) || 0;
-    return `CUST${String(number + 1).padStart(3, '0')}`;
+    return `c_${String(number + 1).padStart(2, '0')}`;
   }
 };

@@ -1,12 +1,15 @@
 import React from 'react';
 import { AppProvider } from './context/AppContext';
+import { DataProvider } from './context/DataContext';
 import MainLayout from './components/layout/MainLayout';
 import './index.css';
 
 function App() {
   return (
     <AppProvider>
-      <MainLayout />
+      <DataProvider>
+        <MainLayout />
+      </DataProvider>
     </AppProvider>
   );
 }

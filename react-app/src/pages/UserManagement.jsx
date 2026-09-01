@@ -1,32 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { FirebaseService } from '../services/firebase';
+import { useDataContext } from '../context/DataContext';
 import Card from '../components/common/Card';
 import Button from '../components/common/Button';
 import { Search, UserPlus, MapPin, Calendar, Users } from 'lucide-react';
 import './Pages.css';
 
 const UserManagement = () => {
-  const [users, setUsers] = useState([]);
+  const { users, isLoading } = useDataContext();
   const [filteredUsers, setFilteredUsers] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
 
-  const loadUsers = async () => {
-    setIsLoading(true);
-    try {
-      const data = await FirebaseService.getUsers();
-      setUsers(data);
-      setFilteredUsers(data);
-    } catch (error) {
-      console.error("Failed to fetch users", error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
   useEffect(() => {
-    loadUsers();
-  }, []);
+    setFilteredUsers(users);
+  }, [users]);
 
   const handleSearch = (e) => {
     const query = e.target.value.toLowerCase();
