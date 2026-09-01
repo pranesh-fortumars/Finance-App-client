@@ -1,0 +1,109 @@
+.card-container {
+  margin: 8px;
+  background-color: var(--card-bg, #ffffff);
+  border-radius: 16px;
+  border: 1px solid var(--border-color, rgba(0,0,0,0.1));
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.dark .card-container {
+  --card-bg: #1e293b;
+  --border-color: rgba(255,255,255,0.1);
+}
+
+.card-header {
+  padding: 20px;
+  border-bottom: 1px solid var(--border-color, rgba(0,0,0,0.1));
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.card-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0;
+  color: inherit;
+}
+
+.card-subtitle {
+  font-size: 0.85rem;
+  margin-top: 4px;
+  opacity: 0.6;
+}
+
+.card-content {
+  padding: 20px;
+}
+
+/* Button Styles */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 16px;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: none;
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Sizes */
+.btn-small { padding: 8px 12px; font-size: 0.75rem; }
+.btn-medium { padding: 12px 16px; font-size: 0.875rem; }
+.btn-large { padding: 16px 20px; font-size: 1rem; }
+
+/* Variants */
+.btn-primary {
+  background-color: #667EEA;
+  color: white;
+  box-shadow: 0 4px 14px 0 rgba(102, 126, 234, 0.39);
+}
+
+.btn-primary:hover:not(:disabled) {
+  background-color: #5a6fe0;
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
+  transform: translateY(-1px);
+}
+
+.btn-outline {
+  background-color: transparent;
+  color: #667EEA;
+  border: 2px solid #667EEA;
+}
+
+.btn-outline:hover:not(:disabled) {
+  background-color: rgba(102, 126, 234, 0.1);
+}
+
+.btn-icon {
+  margin-right: 8px;
+  display: flex;
+  align-items: center;
+}
+
+.spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255,255,255,0.3);
+  border-radius: 50%;
+  border-top-color: #fff;
+  animation: spin 1s ease-in-out infinite;
+  margin-right: 8px;
+}
+
+.btn-outline .spinner {
+  border-top-color: #667EEA;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
