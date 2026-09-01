@@ -6,14 +6,17 @@ import './Layout.css';
 
 import UserManagement from '../../pages/UserManagement';
 import Dashboard from '../../pages/Dashboard';
+import DailyEntry from '../../pages/DailyEntry';
+import PaymentHandling from '../../pages/PaymentHandling';
+import Reports from '../../pages/Reports';
 
 const ScreenWidget = ({ viewId }) => {
   switch (viewId) {
     case ViewId.DASHBOARD: return <Dashboard />;
     case ViewId.USERS: return <UserManagement />;
-    case ViewId.ENTRY: return <div className="screen-center">Daily Entry (Pending)</div>;
-    case ViewId.REPORTS: return <div className="screen-center">Reports (Pending)</div>;
-    case ViewId.PAYMENTS: return <div className="screen-center">Payment Handling (Pending)</div>;
+    case ViewId.ENTRY: return <DailyEntry />;
+    case ViewId.REPORTS: return <Reports />;
+    case ViewId.PAYMENTS: return <PaymentHandling />;
     case ViewId.NOTIFICATIONS: return <div className="screen-center">Notifications (Pending)</div>;
     case ViewId.BONUS: return <div className="screen-center">Bonus Management (Pending)</div>;
     default: return <div className="screen-center">Unknown View</div>;
