@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
 import '../models/user.dart';
-import '../models/address.dart';
-import '../models/scheme_type.dart';
-import '../models/user_scheme.dart';
 import '../services/firebase_service.dart';
-import '../services/indian_address_service.dart';
 import '../widgets/common/card_widget.dart';
 import '../widgets/common/button_widget.dart';
 import '../utils/calculations.dart';
@@ -286,3 +282,23 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
 
 // You can reuse your existing _UserFormDialog and _UserDetailsDialog
 // Just replace StorageService.instance with FirebaseService.instance
+
+class _UserFormDialog extends StatelessWidget {
+  final Function(User) onSave;
+
+  const _UserFormDialog({required this.onSave});
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: const Text('Add User'),
+      content: const Text('User form implementation pending. Please copy your original _UserFormDialog here.'),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.pop(context),
+          child: const Text('Cancel'),
+        ),
+      ],
+    );
+  }
+}

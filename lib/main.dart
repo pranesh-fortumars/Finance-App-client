@@ -83,7 +83,6 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
       case ViewId.payments: return 'Payment Handling';
       case ViewId.notifications: return 'Notifications';
       case ViewId.bonus: return 'Bonus Management';
-      default: return 'Finance Tracker';
     }
   }
 
@@ -105,7 +104,6 @@ class ScreenWidget extends StatelessWidget {
       case ViewId.payments: return const Center(child: Text('Payment Handling'));
       case ViewId.notifications: return const Center(child: Text('Notifications'));
       case ViewId.bonus: return const Center(child: Text('Bonus Management'));
-      default: return const Center(child: Text('Unknown View'));
     }
   }
 }
