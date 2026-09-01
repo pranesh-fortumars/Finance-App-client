@@ -1,0 +1,118 @@
+.page-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 16px;
+}
+
+.page-header {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.search-container {
+  flex: 1;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.search-icon {
+  position: absolute;
+  left: 12px;
+  color: #94a3b8;
+}
+
+.search-input {
+  width: 100%;
+  padding: 12px 12px 12px 40px;
+  border-radius: 8px;
+  border: 1px solid var(--border-color, rgba(0,0,0,0.1));
+  background-color: var(--input-bg, #ffffff);
+  color: inherit;
+  font-family: inherit;
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.dark .search-input {
+  --input-bg: #1e293b;
+  --border-color: rgba(255,255,255,0.1);
+}
+
+.search-input:focus {
+  border-color: #3b82f6;
+}
+
+.list-container {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.center-message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: #94a3b8;
+  font-size: 1.1rem;
+}
+
+.empty-icon {
+  margin-bottom: 16px;
+  opacity: 0.5;
+}
+
+/* User Card Specifics */
+.user-card-layout {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 16px;
+}
+
+.user-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #60a5fa, #3b82f6);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-right: 16px;
+}
+
+.user-details h4 {
+  margin: 0 0 4px 0;
+  font-size: 1.1rem;
+}
+
+.subtitle {
+  margin: 0;
+  color: #64748b;
+  font-size: 0.9rem;
+}
+
+.subtitle.small {
+  font-size: 0.8rem;
+  margin-top: 2px;
+}
+
+.user-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.meta-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #94a3b8;
+  font-size: 0.85rem;
+}

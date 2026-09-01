@@ -1,0 +1,65 @@
+.welcome-banner {
+  padding: 20px;
+  background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+  border-radius: 16px;
+  color: white;
+  margin-bottom: 20px;
+}
+
+.welcome-banner h2 { margin: 0 0 8px 0; font-size: 1.5rem; }
+.welcome-banner p { margin: 0; opacity: 0.9; }
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.stat-card-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.stat-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.stat-badge {
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 0.65rem;
+  font-weight: 600;
+  height: max-content;
+}
+
+.stat-badge.positive { background: rgba(16,185,129,0.1); color: #10B981; }
+.stat-badge.negative { background: rgba(239,68,68,0.1); color: #EF4444; }
+
+.stat-value {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.stat-title {
+  font-size: 0.8rem;
+  color: #64748b;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  padding: 0 4px;
+}
+
+.section-header h3 { font-size: 1.1rem; margin: 0; }
+.view-all-btn { background: none; border: none; color: #3b82f6; font-weight: 600; cursor: pointer; }

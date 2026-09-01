@@ -4,10 +4,13 @@ import BottomNav from './BottomNav';
 import { useAppContext, ViewId } from '../../context/AppContext';
 import './Layout.css';
 
+import UserManagement from '../../pages/UserManagement';
+import Dashboard from '../../pages/Dashboard';
+
 const ScreenWidget = ({ viewId }) => {
   switch (viewId) {
-    case ViewId.DASHBOARD: return <div className="screen-center">Dashboard Screen (Pending)</div>;
-    case ViewId.USERS: return <div className="screen-center">User Management (Pending)</div>;
+    case ViewId.DASHBOARD: return <Dashboard />;
+    case ViewId.USERS: return <UserManagement />;
     case ViewId.ENTRY: return <div className="screen-center">Daily Entry (Pending)</div>;
     case ViewId.REPORTS: return <div className="screen-center">Reports (Pending)</div>;
     case ViewId.PAYMENTS: return <div className="screen-center">Payment Handling (Pending)</div>;
