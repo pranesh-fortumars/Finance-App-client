@@ -3,43 +3,63 @@
   flex-direction: column;
   height: 100vh;
   width: 100vw;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  /* Optional: subtle background pattern/mesh gradient can be added to --bg-primary in index.css */
 }
 
-.dark-bg { background-color: #0f172a; color: #f8fafc; }
-.light-bg { background-color: #f8fafc; color: #0f172a; }
-
+/* Glassmorphism App Bar */
 .app-bar {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 0 20px;
-  height: 60px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  height: 64px;
+  background-color: var(--glass-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--glass-border);
+  box-shadow: var(--shadow-sm);
   flex-shrink: 0;
+  z-index: 10;
+  position: relative;
+  transition: background-color var(--transition-smooth);
 }
-
-.app-bar.dark { background-color: #1e293b; }
-.app-bar.light { background-color: #ffffff; }
 
 .app-title {
   font-size: 1.25rem;
-  font-weight: 600;
+  font-weight: 700;
   margin: 0;
+  letter-spacing: -0.02em;
+  background: var(--primary-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .theme-toggle {
   background: none;
   border: none;
   cursor: pointer;
-  color: inherit;
+  color: var(--text-secondary);
   display: flex;
   align-items: center;
+  padding: 8px;
+  border-radius: 50%;
+  transition: all var(--transition-bounce);
+}
+
+.theme-toggle:hover {
+  background-color: var(--border-light);
+  color: var(--text-primary);
+  transform: rotate(15deg) scale(1.1);
 }
 
 .content-area {
   flex: 1;
   overflow-y: auto;
   position: relative;
+  background-color: var(--bg-primary);
 }
 
 .screen-center {
@@ -48,21 +68,27 @@
   align-items: center;
   height: 100%;
   font-size: 1.1rem;
-  color: #94a3b8;
+  color: var(--text-muted);
+  font-weight: 500;
 }
 
+/* Glassmorphism Bottom Nav */
 .bottom-nav {
   display: flex;
   justify-content: space-around;
   align-items: center;
-  height: 70px;
-  padding-bottom: env(safe-area-inset-bottom, 10px);
-  box-shadow: 0 -1px 3px rgba(0,0,0,0.1);
+  height: 72px;
+  padding-bottom: env(safe-area-inset-bottom, 12px);
+  background-color: var(--glass-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-top: 1px solid var(--glass-border);
+  box-shadow: 0 -4px 6px -1px rgba(0, 0, 0, 0.05);
   flex-shrink: 0;
+  z-index: 10;
+  position: relative;
+  transition: background-color var(--transition-smooth);
 }
-
-.bottom-nav.dark { background-color: #1e293b; }
-.bottom-nav.light { background-color: #ffffff; }
 
 .nav-item {
   display: flex;
@@ -70,19 +96,48 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  color: #64748b;
-  transition: color 0.2s;
+  color: var(--text-muted);
   padding: 8px 12px;
   flex: 1;
+  position: relative;
+  transition: all var(--transition-bounce);
+  transform: translateY(0);
+}
+
+.nav-item:hover {
+  color: var(--text-secondary);
 }
 
 .nav-item.active {
-  color: #3b82f6;
+  color: var(--primary-color);
+  transform: translateY(-2px);
 }
 
-.nav-item.active.dark { color: #60a5fa; }
+.nav-item.active svg {
+  filter: drop-shadow(0 4px 6px var(--primary-glow));
+}
 
 .nav-label {
   font-size: 0.7rem;
+  font-weight: 600;
   margin-top: 4px;
+  opacity: 0;
+  transform: translateY(4px);
+  transition: all var(--transition-bounce);
+  position: absolute;
+  bottom: -4px;
+}
+
+.nav-item.active .nav-label {
+  opacity: 1;
+  transform: translateY(0);
+  bottom: 4px;
+}
+
+/* Adjust icon position when active to make room for label */
+.nav-item svg {
+  transition: transform var(--transition-bounce);
+}
+.nav-item.active svg {
+  transform: translateY(-8px);
 }

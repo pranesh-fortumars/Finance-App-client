@@ -18,8 +18,8 @@ export const AppProvider = ({ children }) => {
   // Mirroring NavigationProvider
   const [currentView, setCurrentView] = useState(ViewId.DASHBOARD);
 
-  // Mirroring ThemeProvider
-  const [isDarkMode, setIsDarkMode] = useState(true);
+  // Mirroring ThemeProvider - Default to Light Mode
+  const [isDarkMode, setIsDarkMode] = useState(false);
 
   const toggleTheme = () => {
     setIsDarkMode(prev => !prev);

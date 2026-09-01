@@ -1,13 +1,28 @@
 .welcome-banner {
-  padding: 20px;
-  background: linear-gradient(135deg, #3b82f6, #1d4ed8);
-  border-radius: 16px;
+  padding: 24px;
+  background: var(--primary-gradient);
+  border-radius: var(--radius-lg);
   color: white;
-  margin-bottom: 20px;
+  margin-bottom: 24px;
+  box-shadow: 0 10px 20px rgba(59, 130, 246, 0.3);
+  position: relative;
+  overflow: hidden;
 }
 
-.welcome-banner h2 { margin: 0 0 8px 0; font-size: 1.5rem; }
-.welcome-banner p { margin: 0; opacity: 0.9; }
+/* Subtle gloss effect */
+.welcome-banner::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 50%;
+  background: linear-gradient(to bottom, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 100%);
+  pointer-events: none;
+}
+
+.welcome-banner h2 { margin: 0 0 8px 0; font-size: 1.6rem; font-weight: 700; letter-spacing: -0.02em; }
+.welcome-banner p { margin: 0; opacity: 0.9; font-weight: 500; font-size: 0.95rem; }
 
 .stats-grid {
   display: grid;

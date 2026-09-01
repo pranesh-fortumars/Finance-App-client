@@ -1,109 +1,123 @@
+/* Premium Card Styles */
 .card-container {
-  margin: 8px;
-  background-color: var(--card-bg, #ffffff);
-  border-radius: 16px;
-  border: 1px solid var(--border-color, rgba(0,0,0,0.1));
-  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  background-color: var(--bg-secondary);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border-light);
   overflow: hidden;
-  display: flex;
-  flex-direction: column;
+  transition: all var(--transition-bounce);
+  margin-bottom: 16px;
+  position: relative;
 }
 
-.dark .card-container {
-  --card-bg: #1e293b;
-  --border-color: rgba(255,255,255,0.1);
+.card-container:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-hover);
+  border-color: rgba(59, 130, 246, 0.2);
+}
+
+/* Subtle gradient border effect on top of cards */
+.card-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--primary-gradient);
+  opacity: 0;
+  transition: opacity var(--transition-smooth);
+}
+
+.card-container:hover::before {
+  opacity: 1;
 }
 
 .card-header {
-  padding: 20px;
-  border-bottom: 1px solid var(--border-color, rgba(0,0,0,0.1));
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border-light);
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
+  background-color: rgba(0, 0, 0, 0.01);
+}
+
+.dark .card-header {
+  background-color: rgba(255, 255, 255, 0.01);
 }
 
 .card-title {
   font-size: 1.1rem;
   font-weight: 600;
   margin: 0;
-  color: inherit;
+  color: var(--text-primary);
+  letter-spacing: -0.01em;
 }
 
 .card-subtitle {
   font-size: 0.85rem;
+  color: var(--text-secondary);
   margin-top: 4px;
-  opacity: 0.6;
 }
 
 .card-content {
   padding: 20px;
 }
 
-/* Button Styles */
-.btn {
-  display: inline-flex;
+/* Premium Button Styles */
+.btn-primary {
+  background: var(--primary-gradient);
+  color: white;
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 10px 20px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 16px;
-  font-family: inherit;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  border: none;
+  gap: 8px;
+  box-shadow: 0 4px 6px -1px var(--primary-glow);
+  transition: all var(--transition-bounce);
+  letter-spacing: 0.02em;
 }
 
-.btn:disabled {
-  opacity: 0.6;
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 12px -2px var(--primary-glow);
+  filter: brightness(1.1);
+}
+
+.btn-primary:active {
+  transform: translateY(1px);
+  box-shadow: 0 2px 4px -1px var(--primary-glow);
+}
+
+.btn-primary:disabled {
+  background: var(--text-muted);
+  box-shadow: none;
   cursor: not-allowed;
-}
-
-/* Sizes */
-.btn-small { padding: 8px 12px; font-size: 0.75rem; }
-.btn-medium { padding: 12px 16px; font-size: 0.875rem; }
-.btn-large { padding: 16px 20px; font-size: 1rem; }
-
-/* Variants */
-.btn-primary {
-  background-color: #667EEA;
-  color: white;
-  box-shadow: 0 4px 14px 0 rgba(102, 126, 234, 0.39);
-}
-
-.btn-primary:hover:not(:disabled) {
-  background-color: #5a6fe0;
-  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
-  transform: translateY(-1px);
+  transform: none;
+  filter: none;
 }
 
 .btn-outline {
-  background-color: transparent;
-  color: #667EEA;
-  border: 2px solid #667EEA;
-}
-
-.btn-outline:hover:not(:disabled) {
-  background-color: rgba(102, 126, 234, 0.1);
-}
-
-.btn-icon {
-  margin-right: 8px;
+  background: transparent;
+  color: var(--primary-color);
+  border: 1px solid var(--primary-color);
+  border-radius: var(--radius-sm);
+  padding: 10px 20px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
   display: flex;
   align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all var(--transition-fast);
 }
 
-.spinner {
-  width: 16px;
-  height: 16px;
-  border: 2px solid rgba(255,255,255,0.3);
-  border-radius: 50%;
-  border-top-color: #fff;
-  animation: spin 1s ease-in-out infinite;
-  margin-right: 8px;
-}
-
-.btn-outline .spinner {
-  border-top-color: #667EEA;
-}
-
-@keyframes spin {
-  to { transform: rotate(360deg); }
+.btn-outline:hover {
+  background: rgba(59, 130, 246, 0.1);
 }
