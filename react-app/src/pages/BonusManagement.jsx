@@ -186,7 +186,7 @@ const BonusManagement = () => {
                 Cancel
               </button>
               <button 
-                onClick={handleSave} 
+                onClick={handleGiveBonus} 
                 disabled={isSaving}
                 style={{ flex: 1, padding: '12px', borderRadius: '8px', border: 'none', backgroundColor: '#10b981', color: '#ffffff', cursor: 'pointer', fontWeight: 600 }}
               >

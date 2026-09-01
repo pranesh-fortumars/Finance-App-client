@@ -54,42 +54,44 @@ const Dashboard = () => {
         <p>Welcome to your finance dashboard</p>
       </div>
 
-      <div className="stats-grid">
-        <StatCard title="Total Customers" value={totalCustomers} icon={Users} color="#3B82F6" change="+12%" isPositive={true} />
-        <StatCard title="Active Schemes" value={activeSchemes} icon={Landmark} color="#10B981" change="+5%" isPositive={true} />
-        <StatCard title="Total Investment" value={`₹${totalInvestment.toFixed(2)}`} icon={TrendingUp} color="#8B5CF6" change="+8%" isPositive={true} />
-        <StatCard title="Pending Dues" value={`₹${pendingDues.toFixed(2)}`} icon={Clock} color="#F59E0B" change="-2%" isPositive={true} />
-        <StatCard title="Completed Cycles" value={completedCycles} icon={CheckCircle} color="#06B6D4" change="+1" isPositive={true} />
-        <StatCard title="Today's Collection" value={`₹${todayCollection.toFixed(2)}`} icon={IndianRupee} color="#EC4899" change="+15%" isPositive={true} />
-      </div>
+      <div className="list-container" style={{ paddingBottom: '20px' }}>
+        <div className="stats-grid">
+          <StatCard title="Total Customers" value={totalCustomers} icon={Users} color="#3B82F6" change="+12%" isPositive={true} />
+          <StatCard title="Active Schemes" value={activeSchemes} icon={Landmark} color="#10B981" change="+5%" isPositive={true} />
+          <StatCard title="Total Investment" value={`₹${totalInvestment.toFixed(2)}`} icon={TrendingUp} color="#8B5CF6" change="+8%" isPositive={true} />
+          <StatCard title="Pending Dues" value={`₹${pendingDues.toFixed(2)}`} icon={Clock} color="#F59E0B" change="-2%" isPositive={true} />
+          <StatCard title="Completed Cycles" value={completedCycles} icon={CheckCircle} color="#06B6D4" change="+1" isPositive={true} />
+          <StatCard title="Today's Collection" value={`₹${todayCollection.toFixed(2)}`} icon={IndianRupee} color="#EC4899" change="+15%" isPositive={true} />
+        </div>
 
-      <div className="section-header">
-        <h3>Recent Transactions</h3>
-        <button className="view-all-btn">View All</button>
-      </div>
-      
-      <Card>
-        {recentTransactions.length === 0 ? (
-          <div className="center-message" style={{ height: 100 }}>
-            <p>No recent transactions</p>
-          </div>
-        ) : (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-            {recentTransactions.map(t => {
-              const user = users.find(u => u.id === t.userId);
-              return (
-                <div key={t.id} style={{ display: 'flex', justifyContent: 'space-between', padding: '8px 0', borderBottom: '1px solid var(--border-color, rgba(0,0,0,0.05))' }}>
-                  <div>
-                    <div style={{ fontWeight: 600 }}>{user?.name || 'Unknown'}</div>
-                    <div style={{ fontSize: '0.8rem', color: '#64748b' }}>{t.paymentMode.toUpperCase()}</div>
+        <div className="section-header">
+          <h3>Recent Transactions</h3>
+          <button className="view-all-btn">View All</button>
+        </div>
+        
+        <Card>
+          {recentTransactions.length === 0 ? (
+            <div className="center-message" style={{ height: 100 }}>
+              <p>No recent transactions</p>
+            </div>
+          ) : (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+              {recentTransactions.map(t => {
+                const user = users.find(u => u.id === t.userId);
+                return (
+                  <div key={t.id} style={{ display: 'flex', justifyContent: 'space-between', padding: '8px 0', borderBottom: '1px solid var(--border-color, rgba(0,0,0,0.05))' }}>
+                    <div>
+                      <div style={{ fontWeight: 600 }}>{user?.name || 'Unknown'}</div>
+                      <div style={{ fontSize: '0.8rem', color: '#64748b' }}>{t.paymentMode.toUpperCase()}</div>
+                    </div>
+                    <div style={{ fontWeight: 600, color: '#10b981' }}>+ ₹{Number(t.amount).toFixed(2)}</div>
                   </div>
-                  <div style={{ fontWeight: 600, color: '#10b981' }}>+ ₹{Number(t.amount).toFixed(2)}</div>
-                </div>
-              )
-            })}
-          </div>
-        )}
-      </Card>
+                )
+              })}
+            </div>
+          )}
+        </Card>
+      </div>
     </div>
   );
 };

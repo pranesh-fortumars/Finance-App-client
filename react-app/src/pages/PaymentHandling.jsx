@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useDataContext } from '../context/DataContext';
 import Card from '../components/common/Card';
-import { Search, Filter, Calendar } from 'lucide-react';
+import { Search, Calendar } from 'lucide-react';
 import './Pages.css';
 
 const PaymentHandling = () => {
