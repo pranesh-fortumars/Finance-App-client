@@ -1,25 +1,28 @@
 import React, { useState, useMemo } from 'react';
 import { useDataContext } from '../context/DataContext';
 import Card from '../components/common/Card';
-import { Download, Printer, Filter, Calendar, BarChart3, PieChart } from 'lucide-react';
+import { Download, Printer, Filter, BarChart3 } from 'lucide-react';
+import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid } from 'recharts';
 import './Pages.css';
+
+const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
 
 const Reports = () => {
   const { transactions, users, isLoading } = useDataContext();
   const [period, setPeriod] = useState('monthly');
   const [client, setClient] = useState('all');
 
-  const filteredData = useMemo(() => {
-    let txs = [...transactions];
+  const { txs, totalAmt, uniqueClients, avg, paymentData, timelineData } = useMemo(() => {
+    let txList = [...transactions];
     
     // Filter by client
     if (client !== 'all') {
-      txs = txs.filter(t => t.userId === client);
+      txList = txList.filter(t => t.userId === client);
     }
 
     // Filter by period
     const now = new Date();
-    txs = txs.filter(t => {
+    txList = txList.filter(t => {
       const d = new Date(t.date?.seconds ? t.date.seconds * 1000 : t.date);
       if (period === 'daily') return d.getDate() === now.getDate() && d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear();
       if (period === 'monthly') return d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear();
@@ -31,11 +34,27 @@ const Reports = () => {
       return true;
     });
 
-    const totalAmt = txs.reduce((sum, t) => sum + (Number(t.amount) || 0), 0);
-    const uniqueClients = new Set(txs.map(t => t.userId)).size;
-    const avg = txs.length ? totalAmt / txs.length : 0;
+    const tAmt = txList.reduce((sum, t) => sum + (Number(t.amount) || 0), 0);
+    const uClients = new Set(txList.map(t => t.userId)).size;
+    const tAvg = txList.length ? tAmt / txList.length : 0;
 
-    return { txs, totalAmt, uniqueClients, avg };
+    // Calculate Payment Mode Data for Pie Chart
+    const pModes = {};
+    txList.forEach(t => {
+      const mode = t.paymentMode || 'unknown';
+      pModes[mode] = (pModes[mode] || 0) + (Number(t.amount) || 0);
+    });
+    const pData = Object.keys(pModes).map(key => ({ name: key.toUpperCase(), value: pModes[key] }));
+
+    // Calculate Timeline Data for Bar Chart
+    const tLine = {};
+    txList.forEach(t => {
+      const d = new Date(t.date?.seconds ? t.date.seconds * 1000 : t.date).toLocaleDateString();
+      tLine[d] = (tLine[d] || 0) + (Number(t.amount) || 0);
+    });
+    const tData = Object.keys(tLine).map(key => ({ date: key, amount: tLine[key] })).sort((a,b) => new Date(a.date) - new Date(b.date));
+
+    return { txs: txList, totalAmt: tAmt, uniqueClients: uClients, avg: tAvg, paymentData: pData, timelineData: tData };
   }, [transactions, period, client]);
 
   const getClientName = () => {
@@ -89,28 +108,58 @@ const Reports = () => {
         <div className="stats-grid">
           <Card padding="16px">
             <div className="stat-title">Total Amount</div>
-            <div className="stat-value" style={{ color: '#3b82f6' }}>₹{filteredData.totalAmt.toFixed(2)}</div>
+            <div className="stat-value" style={{ color: '#3b82f6' }}>₹{totalAmt.toFixed(2)}</div>
           </Card>
           <Card padding="16px">
             <div className="stat-title">Transactions</div>
-            <div className="stat-value" style={{ color: '#10b981' }}>{filteredData.txs.length}</div>
+            <div className="stat-value" style={{ color: '#10b981' }}>{txs.length}</div>
           </Card>
           <Card padding="16px">
             <div className="stat-title">Average</div>
-            <div className="stat-value" style={{ color: '#f59e0b' }}>₹{filteredData.avg.toFixed(2)}</div>
+            <div className="stat-value" style={{ color: '#f59e0b' }}>₹{avg.toFixed(2)}</div>
           </Card>
           <Card padding="16px">
             <div className="stat-title">Clients</div>
-            <div className="stat-value" style={{ color: '#8b5cf6' }}>{filteredData.uniqueClients}</div>
+            <div className="stat-value" style={{ color: '#8b5cf6' }}>{uniqueClients}</div>
           </Card>
         </div>
 
-        <Card title="Payment Mode Distribution" margin="0 0 16px 0">
-          <div className="center-message" style={{ height: 200 }}>
-            <PieChart size={48} className="empty-icon" />
-            <p>Chart coming soon</p>
-          </div>
-        </Card>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '16px' }}>
+          <Card title="Payment Mode Distribution" margin="0">
+            <div style={{ height: 300, width: '100%' }}>
+              {paymentData.length > 0 ? (
+                <ResponsiveContainer width="100%" height="100%">
+                  <PieChart>
+                    <Pie data={paymentData} cx="50%" cy="50%" innerRadius={60} outerRadius={100} paddingAngle={5} dataKey="value">
+                      {paymentData.map((entry, index) => <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />)}
+                    </Pie>
+                    <Tooltip formatter={(value) => `₹${value.toFixed(2)}`} />
+                  </PieChart>
+                </ResponsiveContainer>
+              ) : (
+                <div className="center-message"><p>No payment data available</p></div>
+              )}
+            </div>
+          </Card>
+
+          <Card title="Collection Timeline" margin="0">
+            <div style={{ height: 300, width: '100%' }}>
+              {timelineData.length > 0 ? (
+                <ResponsiveContainer width="100%" height="100%">
+                  <BarChart data={timelineData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
+                    <CartesianGrid strokeDasharray="3 3" opacity={0.2} />
+                    <XAxis dataKey="date" tick={{fontSize: 12}} />
+                    <YAxis tick={{fontSize: 12}} />
+                    <Tooltip cursor={{fill: 'rgba(59,130,246,0.1)'}} formatter={(value) => `₹${value.toFixed(2)}`} />
+                    <Bar dataKey="amount" fill="#3b82f6" radius={[4, 4, 0, 0]} />
+                  </BarChart>
+                </ResponsiveContainer>
+              ) : (
+                <div className="center-message"><p>No timeline data available</p></div>
+              )}
+            </div>
+          </Card>
+        </div>
       </div>
     </div>
   );
